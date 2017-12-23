@@ -1,6 +1,13 @@
 package com.batSSH.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
+	
+	public static List<User> userList=new ArrayList<>();
+	
+	
 	private String host;
 	private int port;
 	private String login_username;
