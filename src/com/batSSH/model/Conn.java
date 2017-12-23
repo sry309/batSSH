@@ -24,7 +24,6 @@ public class Conn {
 		this.port  = port;
 	}
 	
-	
 	public void getS(){
 		JSch jsch = new JSch(); // 创建JSch对象
 		String cmd = "su -";// 要运行的命令
