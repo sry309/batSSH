@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-public class Shell extends JFrame{
+public class Shell extends JFrame{ 
 	private JScrollPane jScrollPane1;
 	
 	Shell(){
