@@ -1,4 +1,4 @@
-package com.batSSH.main;
+package com.batSSH.service;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
