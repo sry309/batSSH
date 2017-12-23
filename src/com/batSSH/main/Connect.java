@@ -12,20 +12,20 @@ import com.jcraft.jsch.Session;
 
 public class Connect {
 	public static void main(String[] args) throws Exception {
-		JSch jsch = new JSch(); // ´´½¨JSch¶ÔÏó
-		String userName = "gxv";// ÓÃ»§Ãû
-		String password = "123456";// ÃÜÂë
-		String host = "192.168.228.135";// ·şÎñÆ÷µØÖ·
-		int port = 22;// ¶Ë¿ÚºÅ
-		String cmd = "su -";// ÒªÔËĞĞµÄÃüÁî
-		Session session = jsch.getSession(userName, host, port); // ¸ù¾İÓÃ»§Ãû£¬Ö÷»úip£¬¶Ë¿Ú»ñÈ¡Ò»¸öSession¶ÔÏó
-		session.setPassword(password); // ÉèÖÃÃÜÂë
+		JSch jsch = new JSch(); // åˆ›å»ºJSchå¯¹è±¡
+		String userName = "gxv";// ç”¨æˆ·å
+		String password = "123456";// å¯†ç 
+		String host = "192.168.228.135";// æœåŠ¡å™¨åœ°å€
+		int port = 22;// ç«¯å£å·
+		String cmd = "su -";// è¦è¿è¡Œçš„å‘½ä»¤
+		Session session = jsch.getSession(userName, host, port); // æ ¹æ®ç”¨æˆ·åï¼Œä¸»æœºipï¼Œç«¯å£è·å–ä¸€ä¸ªSessionå¯¹è±¡
+		session.setPassword(password); // è®¾ç½®å¯†ç 
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
-		session.setConfig(config); // ÎªSession¶ÔÏóÉèÖÃproperties
+		session.setConfig(config); // ä¸ºSessionå¯¹è±¡è®¾ç½®properties
 		int timeout = 60000000;
-		session.setTimeout(timeout); // ÉèÖÃtimeoutÊ±¼ä
-		session.connect(); // Í¨¹ıSession½¨Á¢Á´½Ó
+		session.setTimeout(timeout); // è®¾ç½®timeoutæ—¶é—´
+		session.connect(); // é€šè¿‡Sessionå»ºç«‹é“¾æ¥
 		ChannelExec channelExec = (ChannelExec) session.openChannel("exec");
 		channelExec.setCommand(cmd);
 		channelExec.setInputStream(null);
@@ -37,7 +37,7 @@ public class Connect {
 		StringBuffer sb = new StringBuffer();
 		while ((buf = reader.readLine()) != null) {
 			sb.append(buf);
-			System.out.println(buf);// ´òÓ¡¿ØÖÆÌ¨Êä³ö
+			System.out.println(buf);// æ‰“å°æ§åˆ¶å°è¾“å‡º
 		}
 		reader.close();
 		channelExec.disconnect();
