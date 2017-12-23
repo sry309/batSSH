@@ -3,10 +3,13 @@ package com.batSSH.main;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
 import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
@@ -17,7 +20,7 @@ public class Connect {
 		String password = "123456";// 密码
 		String host = "192.168.228.135";// 服务器地址
 		int port = 22;// 端口号
-		String cmd = "su -";// 要运行的命令
+		
 		Session session = jsch.getSession(userName, host, port); // 根据用户名，主机ip，端口获取一个Session对象
 		session.setPassword(password); // 设置密码
 		Properties config = new Properties();
@@ -26,21 +29,36 @@ public class Connect {
 		int timeout = 60000000;
 		session.setTimeout(timeout); // 设置timeout时间
 		session.connect(); // 通过Session建立链接
-		ChannelExec channelExec = (ChannelExec) session.openChannel("exec");
-		channelExec.setCommand(cmd);
-		channelExec.setInputStream(null);
-		channelExec.setErrStream(System.err);
-		channelExec.connect();
-		InputStream in = channelExec.getInputStream();
+		ChannelShell channelShell = (ChannelShell) session.openChannel("shell");
+		
+		channelShell.connect();
+		InputStream in = channelShell.getInputStream();
+		OutputStream out = channelShell.getOutputStream();
+		PrintWriter prwout = new PrintWriter(out,true);
+		
+		prwout.println("su root");
+		Thread.sleep(2000);
+		prwout.println("toor");
+		Thread.sleep(2000);
+		prwout.println("id");
+		Thread.sleep(2000);
+		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));
 		String buf = null;
 		StringBuffer sb = new StringBuffer();
 		while ((buf = reader.readLine()) != null) {
 			sb.append(buf);
-			System.out.println(buf);// 打印控制台输出
+			int n = buf.indexOf("(root)");
+			if(n != -1){
+				System.out.println("true:"+buf);
+			}else{
+				System.out.println("false:"+buf);
+			}		
+			//System.out.println(buf);// 打印控制台输出
 		}
 		reader.close();
-		channelExec.disconnect();
+		
+		channelShell.disconnect();
 		if (null != session) {
 			session.disconnect();
 		}
