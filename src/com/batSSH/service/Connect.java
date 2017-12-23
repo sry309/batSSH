@@ -18,7 +18,7 @@ public class Connect {
 		JSch jsch = new JSch(); // 创建JSch对象
 		String userName = "gxv";// 用户名
 		String password = "123456";// 密码
-		String host = "192.168.228.135";// 服务器地址
+		String host = "192.168.183.128";// 服务器地址
 		int port = 22;// 端口号
 		
 		Session session = jsch.getSession(userName, host, port); // 根据用户名，主机ip，端口获取一个Session对象
