@@ -1,9 +1,10 @@
-package com.batSSH.service;
+package com.batSSH.test;
 
 import java.util.Map;
 
 import com.batSSH.controller.checkConn;
 import com.batSSH.model.User;
+import com.batSSH.service.CheckService;
 
 /**
  * 
@@ -12,19 +13,19 @@ import com.batSSH.model.User;
 * @date 2017年12月23日 下午11:54:48 
 * @version V2.0
  */
-public class Test {
+public class Test4check {
 	
 	
 	
 	public static void main(String[] args) {
 		
 		User user=new User();
-		user.setHost("192.168.183.128");
-		user.setLogin_username("wei1");
-		user.setLogin_password("root");
+		user.setHost("192.168.228.135");
+		user.setLogin_username("gxv");
+		user.setLogin_password("123456");
 		user.setPort(22);
 		user.setRoot_username("root");
-		user.setRoot_password("root");
+		user.setRoot_password("toor");
 		
 		CheckService checkService=new CheckService();
 		Map<String, Object> result=checkService.doCheck(user);
@@ -33,8 +34,5 @@ public class Test {
 		}else{
 			System.out.println("失败！:"+result.get("msg"));
 		}
-		
-		
 	}
-
 }
