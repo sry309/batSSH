@@ -1,12 +1,12 @@
 package com.batSSH.service;
 
 import java.util.Properties;
-
 import com.batSSH.model.User;
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+
 public class Conn {
 	private String host;
 	private int port;
