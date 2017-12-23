@@ -17,6 +17,10 @@ public class Conn {
 		return session;
 	}
 
+	
+	
+	
+	
 	public Conn(String host,String username,String password,int port){
 		this.host = host;
 		this.username = username;
