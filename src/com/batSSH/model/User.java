@@ -2,7 +2,7 @@ package com.batSSH.model;
 
 public class User {
 	private String host;
-	private String port;
+	private int port;
 	private String login_username;
 	private String login_password;
 	private String root_username;
@@ -15,10 +15,10 @@ public class User {
 	public void setHost(String host) {
 		this.host = host;
 	}
-	public String getPort() {
+	public int getPort() {
 		return port;
 	}
-	public void setPort(String port) {
+	public void setPort(int port) {
 		this.port = port;
 	}
 	public String getLogin_username() {
