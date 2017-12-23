@@ -2,6 +2,7 @@ package com.batSSH.shell;
 
 import java.io.*;
 
+/*wk2*/
 public class LoopedStreams {
  private PipedOutputStream pipedOS =
   new PipedOutputStream();
