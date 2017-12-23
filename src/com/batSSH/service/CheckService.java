@@ -88,6 +88,10 @@ public class CheckService {
 			result.put("result", 0);
 			result.put("msg", "执行su root 失败!");
 			return result;
+		}finally {
+			//关闭连接
+			channelShell.disconnect();
+			conn.close();
 		}
 		
 	}

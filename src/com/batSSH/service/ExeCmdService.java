@@ -52,15 +52,15 @@ public class ExeCmdService {
 			prwout.println(cmd);
 			Thread.sleep(1000);
 		}
-		prwout.println("exec");
+		prwout.println("end");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));
 		String buf = null;
 		
 		while ((buf = reader.readLine()) != null) {
 			System.out.println(buf);
 			msgList.add(buf);
-			if (buf.contains("exec")) {
-				return msgList;
+			if (buf.contains("end")) {
+				break;
 			}
 		}
 		
