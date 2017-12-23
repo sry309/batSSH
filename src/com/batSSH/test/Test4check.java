@@ -20,12 +20,12 @@ public class Test4check {
 	public static void main(String[] args) {
 		
 		User user=new User();
-		user.setHost("192.168.228.135");
-		user.setLogin_username("gxv");
-		user.setLogin_password("123456");
+		user.setHost("mini1");
+		user.setLogin_username("wei1");
+		user.setLogin_password("root");
 		user.setPort(22);
 		user.setRoot_username("root");
-		user.setRoot_password("toor");
+		user.setRoot_password("root");
 		
 		CheckService checkService=new CheckService();
 		Map<String, Object> result=checkService.doCheck(user);

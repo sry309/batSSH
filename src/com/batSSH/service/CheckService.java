@@ -56,8 +56,8 @@ public class CheckService {
 		}
 		
 		List<String> cmds=new ArrayList<>();
-		cmds.add("su root");
-		cmds.add("root");
+		cmds.add("su "+user.getRoot_username());
+		cmds.add(user.getRoot_password());
 		cmds.add("id");
 		try {
 			List<String> msgList=exec.doExec(channelShell, cmds);

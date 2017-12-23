@@ -1,12 +1,12 @@
 package com.batSSH.service;
 
 import java.util.Properties;
+
 import com.batSSH.model.User;
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-
 public class Conn {
 	private String host;
 	private int port;
@@ -18,7 +18,7 @@ public class Conn {
 		this.host = user.getHost();
 		this.port = user.getPort();
 		this.login_username = user.getLogin_username();
-		this.login_password = user.getRoot_password();
+		this.login_password = user.getLogin_password();
 	}
 	
 	public ChannelShell getShell() throws JSchException{
