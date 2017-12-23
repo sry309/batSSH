@@ -16,10 +16,6 @@ public class Conn {
 	public Session getSession() {
 		return session;
 	}
-
-	
-	
-	
 	
 	public Conn(String host,String username,String password,int port){
 		this.host = host;
