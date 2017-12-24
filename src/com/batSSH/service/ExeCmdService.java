@@ -18,7 +18,7 @@ import com.jcraft.jsch.JSchException;
 /**
  * 
 * @Description: TODO(执行命令service) 
-* @author weizhongchuang   
+* @author lili   
 * @date 2017年12月23日 下午11:34:40 
 * @version V1.0
  */
@@ -28,7 +28,7 @@ public class ExeCmdService {
    /**
 	* 
 	* @Description: TODO(执行命令并返回结果) 
-	* @author weizhongchuang   
+	* @author lili   
 	* @date 2017年12月23日 下午11:36:57 
 	* @version V2.0 
 	* 
