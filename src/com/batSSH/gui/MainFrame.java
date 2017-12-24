@@ -5,9 +5,13 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -15,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.table.AbstractTableModel;
 
 import com.batSSH.model.User;
@@ -31,8 +36,11 @@ public class MainFrame extends JFrame {
 		
 		//主窗口
 		this.setTitle(name+" "+version);
-		this.setSize(600, 450);
+		this.setSize(650, 450);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		ImageIcon icon = new ImageIcon(getClass().getResource("image/bat3.png"));
+		this.setIconImage(icon.getImage());
+		
 		int x = (int)(toolkit.getScreenSize().getWidth()-this.getWidth())/2;
 		int y = (int)(toolkit.getScreenSize().getHeight()-this.getHeight())/2;
 		this.setLocation(x,y);
@@ -56,7 +64,6 @@ public class MainFrame extends JFrame {
 		menubar.add(optionMenu);
 		menubar.add(aboutMenu);
 		
-		//右键菜单
     	//右键菜单
     	JPopupMenu pppmenu = new JPopupMenu();
     	JMenuItem mClean,mRe,mSave;
@@ -76,24 +83,94 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				System.out.print("11111");
 				if(e.getButton() == MouseEvent.BUTTON3){
 					pppmenu.show(table,e.getX(),e.getY());//显示菜单
 				}
+				
+				if(e.getClickCount() == 2){
+					CheckFrame checkFrm = new CheckFrame();
+					checkFrm.setVisible(true);
+				}
 			}
 		});
+		table.setAutoCreateRowSorter(true);//表头排序
 		
+		// 状态栏
+		JToolBar toolBar = new JToolBar();
+		JLabel lbStatus=new JLabel("status:");
+		
+		JLabel lbStatusContext=new JLabel("11111                                      ");
+		toolBar.add(lbStatusContext);
+		JLabel lbCount=new JLabel(" Conut:");
+		JLabel lbCountContext=new JLabel("78");
+		JLabel lbSuccess=new JLabel(" Success:");
+		JLabel lbSuccessContext=new JLabel("14");
+		JLabel lbFail=new JLabel(" Fail:");
+		JLabel lbFailContext=new JLabel("64");
+		toolBar.add(lbStatus);
+		toolBar.add(lbStatusContext);
+		toolBar.add(lbCount);
+		toolBar.add(lbCountContext);
+		toolBar.add(lbSuccess);
+		toolBar.add(lbSuccessContext);
+		toolBar.add(lbFail);
+		toolBar.add(lbFailContext);
+
 		//布局
 		BorderLayout bord = new BorderLayout();
 		this.setLayout(bord);
 		this.add("North",menubar);
 		this.add("Center", scrollPane);
+		this.add("South", toolBar);
 		
+		//测试数据
+		user.setHost("127.0.0.1");
+		user.setPort(22);
+		user.setLogin_username("gxv");
+		user.setLogin_password("123456");
+		user.setRoot_username("root");
+		user.setRoot_password("toor");
+		user.setCheckResult("1");
+		
+		int row = users.size();
+		users.add(user);
+		users.add(user);
+		users.add(user);
+		users.add(user);
+		users.add(user);
+		users.add(user);
+		User user1 = new User();
+		user1.setHost("127.0.0.1");
+		user1.setPort(22);
+		user1.setLogin_username("gxv");
+		user1.setLogin_password("123456");
+		user1.setRoot_username("root");
+		user1.setRoot_password("toor");
+		user1.setCheckResult("2");
+		users.add(user1);
+		users.add(user1);
+		users.add(user1);
+		users.add(user1);
+		users.add(user1);
+		User user2 = new User();
+		user2.setHost("127.0.0.1");
+		user2.setPort(22);
+		user2.setLogin_username("gxv");
+		user2.setLogin_password("123456");
+		user2.setRoot_username("root");
+		user2.setRoot_password("toor");
+		user2.setCheckResult("0");
+		users.add(user2);
+		users.add(user2);
+		users.add(user2);
+		users.add(user2);
+		model.fireTableRowsInserted(row,row);
 	}
 	
 	
 // 表格模型类
 	class TableModel extends AbstractTableModel{
+
 
 		@Override
 		public int getRowCount() {
@@ -135,6 +212,9 @@ public class MainFrame extends JFrame {
 	    @Override
 	    public Class<?> getColumnClass(int columnIndex)
 	    {
+	    	if(columnIndex == 6){
+	    		return Icon.class;
+	    	}
 	        return String.class;
 	    }
 	    
@@ -157,7 +237,10 @@ public class MainFrame extends JFrame {
 			case 5:
 				return user.getRoot_password();
 			case 6:
-				return user.getCheckResult();
+				//return user.getCheckResult();
+				String path = String.format("image/%s.png", user.getCheckResult());
+				//System.out.println(path);
+				return new ImageIcon(getClass().getResource(path));
 			default:
 				return null;
 			}

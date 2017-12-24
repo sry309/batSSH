@@ -25,8 +25,8 @@ import com.jcraft.jsch.JSchException;
 public class ExeCmdService {
 	
 	
-	/**
-	 * 
+   /**
+	* 
 	* @Description: TODO(执行命令并返回结果) 
 	* @author weizhongchuang   
 	* @date 2017年12月23日 下午11:36:57 
@@ -35,8 +35,8 @@ public class ExeCmdService {
 	* @param channelShell shell
 	* @param cmds 执行的命令集合
 	* @return 结果集
-	 * @throws Exception 
-	 */
+	* @throws Exception 
+	*/
 	public List<String> doExec(ChannelShell channelShell,List<String> cmds) throws Exception{
 		
 		List<String> msgList=new ArrayList<>();
