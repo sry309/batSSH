@@ -38,7 +38,9 @@ public class FileService {
 	* @return map success_num:成功条数    fail_num：失败条数 count_num:总共条数 userList:用户集合   failList:错误集合   
 	* read_flag:读取成功表示  1表示成功读取，2表示读取失败！
 	 */
-	public Map<String, Object> doImportText(InputStreamReader reader,String split){
+	public Map<String, Object> doImportText(File file,String split){
+		
+		
 		
 		//判断是否为空
 		if (!StringUtils.isNullAndEmpty(split)) {
@@ -53,12 +55,15 @@ public class FileService {
 		Integer count_num=0;
 		
 		
-		BufferedReader br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言  
+		InputStreamReader reader=null;
+		BufferedReader br=null;
 		String line = "";  
 		Boolean bool=true;
 		while (bool) {  
 		    
 			try {
+				reader = new InputStreamReader(new FileInputStream(file));
+				br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言  
 				//读取一行
 				line=br.readLine();
 				

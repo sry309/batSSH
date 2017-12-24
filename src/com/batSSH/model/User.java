@@ -16,6 +16,14 @@ public class User {
 	private String root_password;
 	private String checkResult;
 	
+	public User(){
+		System.out.println("调用空参构造");
+	}
+	
+	public User(String i){
+		System.out.println("调用有参构造:"+i);
+	}
+	
 	public String getHost() {
 		return host;
 	}

@@ -20,9 +20,8 @@ public class TestImport {
 	public static void main(String[] args) throws Exception {
 		
 		File file=new File("D://test.txt");
-		InputStreamReader reader = new InputStreamReader(new FileInputStream(file));
 		FileService fileService=new FileService();
-		Map<String, Object> msg=fileService.doImportText(reader, ":");
+		Map<String, Object> msg=fileService.doImportText(file, ":");
 		System.err.println("");
 	}
 
