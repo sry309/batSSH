@@ -39,7 +39,7 @@ public class Conn {
 	/**
 	 * 
 	* @Description: TODO(关闭session) 
-	* @author weizhongchuang   
+	* @author lili   
 	* @date 2017年12月24日 上午12:50:47 
 	* @version V1.0 
 	*
