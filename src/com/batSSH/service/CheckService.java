@@ -76,8 +76,6 @@ public class CheckService {
 			}else{
 				//登录成功
 				result.put("msg", "跳转成功！");
-				user.setCheckResult("1");
-				User.userList.add(user);
 			}
 			
 			
