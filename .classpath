@@ -7,5 +7,6 @@
 			<attribute name="source_encoding" value="UTF-8"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/beautyeye_lnf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

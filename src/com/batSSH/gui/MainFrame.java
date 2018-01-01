@@ -1,11 +1,12 @@
 package com.batSSH.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -19,7 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JToolBar;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
 
 import com.batSSH.model.User;
@@ -36,7 +37,7 @@ public class MainFrame extends JFrame {
 		
 		//主窗口
 		this.setTitle(name+" "+version);
-		this.setSize(650, 450);
+		this.setSize(750,500);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		ImageIcon icon = new ImageIcon(getClass().getResource("image/bat3.png"));
 		this.setIconImage(icon.getImage());
@@ -77,6 +78,7 @@ public class MainFrame extends JFrame {
 		//表格
 		AbstractTableModel model = new TableModel();
 		JTable table = new JTable(model);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		table.addMouseListener(new MouseAdapter() {
@@ -96,34 +98,41 @@ public class MainFrame extends JFrame {
 		table.setAutoCreateRowSorter(true);//表头排序
 		
 		// 状态栏
-		JToolBar toolBar = new JToolBar();
-		JLabel lbStatus=new JLabel("status:");
+		JPanel plStatus = new JPanel();
+		JLabel lbStatus=new JLabel("Status:");
 		
-		JLabel lbStatusContext=new JLabel("11111                                      ");
-		toolBar.add(lbStatusContext);
-		JLabel lbCount=new JLabel(" Conut:");
-		JLabel lbCountContext=new JLabel("78");
-		JLabel lbSuccess=new JLabel(" Success:");
-		JLabel lbSuccessContext=new JLabel("14");
-		JLabel lbFail=new JLabel(" Fail:");
-		JLabel lbFailContext=new JLabel("64");
-		toolBar.add(lbStatus);
-		toolBar.add(lbStatusContext);
-		toolBar.add(lbCount);
-		toolBar.add(lbCountContext);
-		toolBar.add(lbSuccess);
-		toolBar.add(lbSuccessContext);
-		toolBar.add(lbFail);
-		toolBar.add(lbFailContext);
+		JLabel lbStatusContext=new JLabel("start check...");
+		JLabel lbCount=new JLabel("Conut:");
+		JLabel lbCountContext=new JLabel("0");
+		lbCountContext.setForeground(Color.BLUE);//数量为蓝色
+		JLabel lbSuccess=new JLabel("Success:");
+		JLabel lbSuccessContext=new JLabel("0");
+		lbSuccessContext.setForeground(Color.GREEN);//成功为绿色
+		JLabel lbFail=new JLabel("Fail:");
+		JLabel lbFailContext=new JLabel("0");
+		lbFailContext.setForeground(Color.RED);//失败为红色
+		
+		plStatus.setLayout(new GridBagLayout());
+		plStatus.add(lbStatus,new GBC(0,0,1,1).setAnchor(GBC.WEST).setInsets(0,10,0,0));
+		plStatus.add(lbStatusContext,new GBC(1,0,5,1).setAnchor(GBC.WEST).setIpad(200,0).setWeight(100, 0).setInsets(2));
+		plStatus.add(lbCount,new GBC(6,0,1,1));
+		plStatus.add(lbCountContext,new GBC(7,0,1,1).setInsets(0,0,0,10));
+		plStatus.add(lbSuccess,new GBC(8,0,1,1));
+		plStatus.add(lbSuccessContext,new GBC(9,0,1,1).setInsets(2).setInsets(0,0,0,10));
+		plStatus.add(lbFail,new GBC(10,0,1,1));
+		plStatus.add(lbFailContext,new GBC(11,0,1,1).setInsets(0,0,0,10));
 
 		//布局
 		BorderLayout bord = new BorderLayout();
 		this.setLayout(bord);
 		this.add("North",menubar);
 		this.add("Center", scrollPane);
-		this.add("South", toolBar);
+		this.add("South", plStatus);
 		
+		//
 		//测试数据
+		//
+		
 		user.setHost("127.0.0.1");
 		user.setPort(22);
 		user.setLogin_username("gxv");
@@ -170,8 +179,6 @@ public class MainFrame extends JFrame {
 	
 // 表格模型类
 	class TableModel extends AbstractTableModel{
-
-
 		@Override
 		public int getRowCount() {
 			//行数
@@ -249,7 +256,17 @@ public class MainFrame extends JFrame {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		//设置皮肤
+		try
+	    {
+			UIManager.put("RootPane.setupButtonVisible",false);
+	        org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+	    }
+	    catch(Exception e)
+	    {
+	    	System.out.println(e.getMessage());
+	    }
+		
 		MainFrame frm = new MainFrame();
 		frm.setVisible(true);
 	}

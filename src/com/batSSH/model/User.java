@@ -5,8 +5,7 @@ import java.util.List;
 
 public class User {
 	
-	public static List<User> userList=new ArrayList<>();
-	
+	public static List<User> userList=new ArrayList<>();	
 	
 	private String host;
 	private int port;
