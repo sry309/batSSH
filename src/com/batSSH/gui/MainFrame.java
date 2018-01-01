@@ -48,6 +48,8 @@ public class MainFrame extends JFrame {
 		
 		//菜单
 		JMenu fileMenu = new JMenu("File");
+		JMenuItem fmImport = new JMenuItem("Import");
+		fileMenu.add(fmImport);
 		JMenuItem fmExport = new JMenuItem("Export");
 		fileMenu.add(fmExport);
 		fileMenu.addSeparator();
@@ -67,13 +69,19 @@ public class MainFrame extends JFrame {
 		
     	//右键菜单
     	JPopupMenu pppmenu = new JPopupMenu();
-    	JMenuItem mClean,mRe,mSave;
+    	JMenuItem mClean,mCopy,mSave,mAdd,mDel,mModify;
     	mClean = new JMenuItem("清空(C)");
-    	mRe = new JMenuItem("去重(R)");
+    	mAdd = new JMenuItem("添加(A)");
+    	mDel = new JMenuItem("删除(D)");
     	mSave = new JMenuItem("保存(S)");
+    	mCopy = new JMenuItem("复制");
+    	mModify = new JMenuItem("修改(M)");
 		pppmenu.add(mClean);
-		pppmenu.add(mRe);
 		pppmenu.add(mSave);
+		pppmenu.add(mAdd);
+		pppmenu.add(mDel);
+		pppmenu.add(mCopy);
+		pppmenu.add(mModify);
 		
 		//表格
 		AbstractTableModel model = new TableModel();

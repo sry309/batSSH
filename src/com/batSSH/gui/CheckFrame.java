@@ -85,6 +85,7 @@ public class CheckFrame extends JFrame {
 		
 		JTextArea taShell = new JTextArea(10,40);
 		taShell.setBackground(new Color(0, 0, 0));
+		taShell.setForeground(Color.GREEN);
 		taShell.setSelectedTextColor(new Color(255, 255, 255));
 		JScrollPane scrShell = new JScrollPane(taShell);
 		box_1.add(scrShell);
