@@ -22,10 +22,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-public class CheckFrame extends JDialog {
+public class CheckDialog extends JDialog {
 	private String name = "check";
 	
-	CheckFrame(){
+	CheckDialog(){
 		this.setTitle(name);
 		this.setSize(750, 350);
 		this.setResizable(false);
@@ -83,7 +83,7 @@ public class CheckFrame extends JDialog {
 	    {
 	    	System.out.println(e.getMessage());
 	    }
-		CheckFrame frm = new CheckFrame();
+		CheckDialog frm = new CheckDialog();
 		frm.setVisible(true);
 	}
 }

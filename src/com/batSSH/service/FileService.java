@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.batSSH.gui.MainFrame;
 import com.batSSH.model.Result;
 import com.batSSH.model.User;
 import com.batSSH.utils.StringUtils;
@@ -59,24 +61,29 @@ public class FileService {
 		BufferedReader br=null;
 		String line = "";  
 		Boolean bool=true;
+		try {
+			reader = new InputStreamReader(new FileInputStream(file));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			importMap.put("read_flag", "0");
+		}
+		br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言  
 		while (bool) {  
 		    
-			try {
-				reader = new InputStreamReader(new FileInputStream(file));
-				br = new BufferedReader(reader); // 建立一个对象，它把文件内容转成计算机能读懂的语言  
 				//读取一行
-				line=br.readLine();
-				
-			}catch (Exception e) {
-				
-				e.printStackTrace();
-				importMap.put("read_flag", "0");
-				break;
-			}
+				try {
+					line=br.readLine();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					break;
+				}
 			
 			try {
 				if (line==null) {
 					importMap.put("read_flag", "1");
+					bool = false;
 					break;
 				}
 				
@@ -110,7 +117,7 @@ public class FileService {
 		importMap.put("fail_num", fail_num);
 		importMap.put("count_num", count_num);
 		importMap.put("userList", userList);
-		
+		importMap.put("failList", failList);
 		//关闭流
 		try {
 			reader.close();
@@ -146,7 +153,7 @@ public class FileService {
 			return new Result(0, "目录为空！", null);
 		}
 		
-		File newFile = new File(url); // 相对路径，如果没有则要建立一个新的output。txt文件  
+		File newFile = new File(url); // 相对路径，如果没有则要建立一个新的output.txt文件  
 		 
 		//判断目标文件所在的目录是否存在  
     	if(!newFile.getParentFile().exists()) {  
@@ -163,7 +170,7 @@ public class FileService {
 			newFile.createNewFile(); // 创建新文件  
 			out = new BufferedWriter(new FileWriter(newFile));  
 			
-			for(User user:User.userList){
+			for(User user:MainFrame.users){
 				
 				StringBuffer line=new StringBuffer(user.getHost()+split);
 				line.append(user.getPort()+split);

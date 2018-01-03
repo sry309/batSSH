@@ -3,34 +3,46 @@ package com.batSSH.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagLayout;
+import java.awt.Menu;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.event.MenuEvent;
 import javax.swing.table.AbstractTableModel;
 
+import com.batSSH.model.Result;
 import com.batSSH.model.User;
+import com.batSSH.service.FileService;
 
 public class MainFrame extends JFrame {
 	
 	private String name = "batSSH";
 	private double version = 1.0;
 	private User user;
-	private List<User> users = new ArrayList<User>();
+	public static List<User> users = new ArrayList<User>();
+	private AbstractTableModel model;
+	private JTable table;
 	
 	MainFrame(){
 		this.user = new User();
@@ -67,6 +79,8 @@ public class MainFrame extends JFrame {
 		menubar.add(optionMenu);
 		menubar.add(aboutMenu);
 		
+	
+		
     	//右键菜单
     	JPopupMenu pppmenu = new JPopupMenu();
     	JMenuItem mClean,mCopy,mSave,mAdd,mDel,mModify;
@@ -84,8 +98,8 @@ public class MainFrame extends JFrame {
 		pppmenu.add(mModify);
 		
 		//表格
-		AbstractTableModel model = new TableModel();
-		JTable table = new JTable(model);
+		model = new TableModel();
+		table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		JScrollPane scrollPane = new JScrollPane(table);
 		
@@ -98,7 +112,7 @@ public class MainFrame extends JFrame {
 				}
 				
 				if(e.getClickCount() == 2){
-					CheckFrame checkFrm = new CheckFrame();
+					CheckDialog checkFrm = new CheckDialog();
 					checkFrm.setVisible(true);
 				}
 			}
@@ -141,47 +155,84 @@ public class MainFrame extends JFrame {
 		//测试数据
 		//
 		
-		user.setHost("127.0.0.1");
-		user.setPort(22);
-		user.setLogin_username("gxv");
-		user.setLogin_password("123456");
-		user.setRoot_username("root");
-		user.setRoot_password("toor");
-		user.setCheckResult("1");
+//		user.setHost("127.0.0.1");
+//		user.setPort(22);
+//		user.setLogin_username("gxv");
+//		user.setLogin_password("123456");
+//		user.setRoot_username("root");
+//		user.setRoot_password("toor");
+//		user.setCheckResult("1");
+//		
+//		int row = users.size();
+//		users.add(user);
+//		users.add(user);
+//		users.add(user);
+//		users.add(user);
+//		users.add(user);
+//		users.add(user);
+//		User user1 = new User();
+//		user1.setHost("127.0.0.1");
+//		user1.setPort(22);
+//		user1.setLogin_username("gxv");
+//		user1.setLogin_password("123456");
+//		user1.setRoot_username("root");
+//		user1.setRoot_password("toor");
+//		user1.setCheckResult("2");
+//		users.add(user1);
+//		users.add(user1);
+//		users.add(user1);
+//		users.add(user1);
+//		users.add(user1);
+//		User user2 = new User();
+//		user2.setHost("127.0.0.1");
+//		user2.setPort(22);
+//		user2.setLogin_username("gxv");
+//		user2.setLogin_password("123456");
+//		user2.setRoot_username("root");
+//		user2.setRoot_password("toor");
+//		user2.setCheckResult("0");
+//		users.add(user2);
+//		users.add(user2);
+//		users.add(user2);
+//		users.add(user2);
+//		model.fireTableRowsInserted(row,row);
 		
-		int row = users.size();
-		users.add(user);
-		users.add(user);
-		users.add(user);
-		users.add(user);
-		users.add(user);
-		users.add(user);
-		User user1 = new User();
-		user1.setHost("127.0.0.1");
-		user1.setPort(22);
-		user1.setLogin_username("gxv");
-		user1.setLogin_password("123456");
-		user1.setRoot_username("root");
-		user1.setRoot_password("toor");
-		user1.setCheckResult("2");
-		users.add(user1);
-		users.add(user1);
-		users.add(user1);
-		users.add(user1);
-		users.add(user1);
-		User user2 = new User();
-		user2.setHost("127.0.0.1");
-		user2.setPort(22);
-		user2.setLogin_username("gxv");
-		user2.setLogin_password("123456");
-		user2.setRoot_username("root");
-		user2.setRoot_password("toor");
-		user2.setCheckResult("0");
-		users.add(user2);
-		users.add(user2);
-		users.add(user2);
-		users.add(user2);
-		model.fireTableRowsInserted(row,row);
+	fmImport.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 JFileChooser chooseFile = new JFileChooser();
+				 int returnVal = chooseFile.showOpenDialog(null); 
+			     if(returnVal == chooseFile.APPROVE_OPTION) {   
+			         File f = chooseFile.getSelectedFile();   
+			         //JOptionPane.showConfirmDialog(null, "你选择的文件名是："+chooseFile.getName(f),"确认",JOptionPane.ERROR_MESSAGE);
+			         FileService fileService=new FileService();
+			 		 Map<String, Object> msg=fileService.doImportText(f, ":");
+			 		int row = users.size();
+			 		users = (List<User>) msg.get("userList");
+					model.fireTableRowsInserted(row,row);
+			     } 
+			}
+		});
+		
+	fmExport.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser  fileChooser = new JFileChooser();
+			int i = fileChooser.showSaveDialog(MainFrame.this);
+			if (i == JFileChooser.APPROVE_OPTION) { //点击对话框中打开选项
+			    File f = fileChooser.getSelectedFile(); //得到选择的文件
+			    try {
+			    	FileService fileService=new FileService();
+			    	Result result=fileService.doExport(f.getPath(), ":");
+			    } catch (Exception ex) {
+			    	ex.printStackTrace();  //输出出错信息
+			    }
+			}
+		}
+	});
+
 	}
 	
 	
