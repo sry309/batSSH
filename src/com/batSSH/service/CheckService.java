@@ -78,7 +78,6 @@ public class CheckService {
 				result.put("msg", "跳转成功！");
 			}
 			
-			
 			return result;
 		} catch (Exception e) {
 			

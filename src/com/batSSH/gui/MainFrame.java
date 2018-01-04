@@ -34,6 +34,7 @@ import javax.swing.table.AbstractTableModel;
 import com.batSSH.model.Result;
 import com.batSSH.model.User;
 import com.batSSH.service.FileService;
+import com.batSSH.service.batCheckService;
 
 public class MainFrame extends JFrame {
 	
@@ -43,6 +44,7 @@ public class MainFrame extends JFrame {
 	public static List<User> users = new ArrayList<User>();
 	private AbstractTableModel model;
 	private JTable table;
+	public static JStatusBar statusBar;
 	
 	MainFrame(){
 		this.user = new User();
@@ -57,6 +59,7 @@ public class MainFrame extends JFrame {
 		int x = (int)(toolkit.getScreenSize().getWidth()-this.getWidth())/2;
 		int y = (int)(toolkit.getScreenSize().getHeight()-this.getHeight())/2;
 		this.setLocation(x,y);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//菜单
 		JMenu fileMenu = new JMenu("File");
@@ -83,13 +86,17 @@ public class MainFrame extends JFrame {
 		
     	//右键菜单
     	JPopupMenu pppmenu = new JPopupMenu();
-    	JMenuItem mClean,mCopy,mSave,mAdd,mDel,mModify;
+    	JMenuItem mStart,mStop,mClean,mCopy,mSave,mAdd,mDel,mModify;
+    	mStart = new JMenuItem("开始");
+    	mStop = new JMenuItem("停止");
     	mClean = new JMenuItem("清空(C)");
     	mAdd = new JMenuItem("添加(A)");
     	mDel = new JMenuItem("删除(D)");
     	mSave = new JMenuItem("保存(S)");
     	mCopy = new JMenuItem("复制");
     	mModify = new JMenuItem("修改(M)");
+    	pppmenu.add(mStart);
+    	pppmenu.add(mStop);
 		pppmenu.add(mClean);
 		pppmenu.add(mSave);
 		pppmenu.add(mAdd);
@@ -119,83 +126,15 @@ public class MainFrame extends JFrame {
 		});
 		table.setAutoCreateRowSorter(true);//表头排序
 		
-		// 状态栏
-		JPanel plStatus = new JPanel();
-		JLabel lbStatus=new JLabel("Status:");
+		// 状态栏		
+		statusBar = new JStatusBar();
 		
-		JLabel lbStatusContext=new JLabel("start check...");
-		JLabel lbCount=new JLabel("Conut:");
-		JLabel lbCountContext=new JLabel("0");
-		lbCountContext.setForeground(Color.BLUE);//数量为蓝色
-		JLabel lbSuccess=new JLabel("Success:");
-		JLabel lbSuccessContext=new JLabel("0");
-		lbSuccessContext.setForeground(Color.GREEN);//成功为绿色
-		JLabel lbFail=new JLabel("Fail:");
-		JLabel lbFailContext=new JLabel("0");
-		lbFailContext.setForeground(Color.RED);//失败为红色
-		
-		plStatus.setLayout(new GridBagLayout());
-		plStatus.add(lbStatus,new GBC(0,0,1,1).setAnchor(GBC.WEST).setInsets(0,10,0,0));
-		plStatus.add(lbStatusContext,new GBC(1,0,5,1).setAnchor(GBC.WEST).setIpad(200,0).setWeight(100, 0).setInsets(2));
-		plStatus.add(lbCount,new GBC(6,0,1,1));
-		plStatus.add(lbCountContext,new GBC(7,0,1,1).setInsets(0,0,0,10));
-		plStatus.add(lbSuccess,new GBC(8,0,1,1));
-		plStatus.add(lbSuccessContext,new GBC(9,0,1,1).setInsets(2).setInsets(0,0,0,10));
-		plStatus.add(lbFail,new GBC(10,0,1,1));
-		plStatus.add(lbFailContext,new GBC(11,0,1,1).setInsets(0,0,0,10));
-
 		//布局
 		BorderLayout bord = new BorderLayout();
 		this.setLayout(bord);
 		this.add("North",menubar);
 		this.add("Center", scrollPane);
-		this.add("South", plStatus);
-		
-		//
-		//测试数据
-		//
-		
-//		user.setHost("127.0.0.1");
-//		user.setPort(22);
-//		user.setLogin_username("gxv");
-//		user.setLogin_password("123456");
-//		user.setRoot_username("root");
-//		user.setRoot_password("toor");
-//		user.setCheckResult("1");
-//		
-//		int row = users.size();
-//		users.add(user);
-//		users.add(user);
-//		users.add(user);
-//		users.add(user);
-//		users.add(user);
-//		users.add(user);
-//		User user1 = new User();
-//		user1.setHost("127.0.0.1");
-//		user1.setPort(22);
-//		user1.setLogin_username("gxv");
-//		user1.setLogin_password("123456");
-//		user1.setRoot_username("root");
-//		user1.setRoot_password("toor");
-//		user1.setCheckResult("2");
-//		users.add(user1);
-//		users.add(user1);
-//		users.add(user1);
-//		users.add(user1);
-//		users.add(user1);
-//		User user2 = new User();
-//		user2.setHost("127.0.0.1");
-//		user2.setPort(22);
-//		user2.setLogin_username("gxv");
-//		user2.setLogin_password("123456");
-//		user2.setRoot_username("root");
-//		user2.setRoot_password("toor");
-//		user2.setCheckResult("0");
-//		users.add(user2);
-//		users.add(user2);
-//		users.add(user2);
-//		users.add(user2);
-//		model.fireTableRowsInserted(row,row);
+		this.add("South", statusBar);
 		
 	fmImport.addActionListener(new ActionListener() {
 			
@@ -208,9 +147,14 @@ public class MainFrame extends JFrame {
 			         //JOptionPane.showConfirmDialog(null, "你选择的文件名是："+chooseFile.getName(f),"确认",JOptionPane.ERROR_MESSAGE);
 			         FileService fileService=new FileService();
 			 		 Map<String, Object> msg=fileService.doImportText(f, ":");
-			 		int row = users.size();
-			 		users = (List<User>) msg.get("userList");
-					model.fireTableRowsInserted(row,row);
+			 		 
+			 		 users.clear();
+			 		 int row = users.size();
+			 		 users = (List<User>) msg.get("userList");
+					 model.fireTableRowsInserted(row,row);
+					 statusBar.setLbCountContext(String.valueOf(users.size()));
+					 statusBar.setLbSuccessContext("0");
+					 statusBar.setLbFailContext("0");
 			     } 
 			}
 		});
@@ -232,8 +176,30 @@ public class MainFrame extends JFrame {
 			}
 		}
 	});
-
-	}
+	
+	mStart.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//batCheckService.dobatCheckService(users);
+			//model.fireTableDataChanged();
+			CheckSwingWorker csw = new CheckSwingWorker(model,users);
+			csw.execute();
+		}
+	});
+	
+	mClean.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			users.clear();
+			model.fireTableDataChanged();
+			statusBar.setLbCountContext(String.valueOf(users.size()));
+			statusBar.setLbSuccessContext("0");
+			statusBar.setLbFailContext("0");
+		}
+	});
+}
 	
 	
 // 表格模型类

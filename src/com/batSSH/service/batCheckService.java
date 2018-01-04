@@ -4,15 +4,22 @@ import java.util.List;
 import java.util.Map;
 
 import com.batSSH.model.User;
+
 /**
  * 
- * @author c0ny1
- * 
+ * @Description: TODO(检查) 
+ * @author: c0ny1
+ * @date: 2018年1月4日上午10:35:36
+ * @version: V1.0
  */
 
-//批量多个检查
 public class batCheckService {
-	public List<User> dobatCheckService(List<User> users){
+	/**
+	 * 
+	 * @param users 用户列表
+	 * @return 检查后的用户列表
+	 */
+	public static List<User> dobatCheckService(List<User> users){
 		List<User> currentUser = users;
 		CheckService check = new CheckService();
 		String code_result;
@@ -26,7 +33,7 @@ public class batCheckService {
 	}
 	
 	// 单个检查
-	public User doCheckService(User user){
+	public static User doCheckService(User user){
 		User currentUser = user;
 		CheckService check = new CheckService();
 		String code_result;
