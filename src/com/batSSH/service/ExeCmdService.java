@@ -46,7 +46,6 @@ public class ExeCmdService {
 		OutputStream out = channelShell.getOutputStream();
 		PrintWriter prwout = new PrintWriter(out,true);
 	
-		
 		//执行命令
 		for (String cmd : cmds) {
 			prwout.println(cmd);

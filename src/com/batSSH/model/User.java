@@ -6,7 +6,7 @@ import java.util.List;
 public class User {
 	
 	public static List<User> userList=new ArrayList<>();	
-	
+	private int id;
 	private String host;
 	private int port;
 	private String login_username;
@@ -14,6 +14,14 @@ public class User {
 	private String root_username;
 	private String root_password;
 	private String checkResult;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public String getHost() {
 		return host;

@@ -119,7 +119,11 @@ public class MainFrame extends JFrame {
 				}
 				
 				if(e.getClickCount() == 2){
-					CheckDialog checkFrm = new CheckDialog();
+					int nColumn = table.getSelectedColumn();
+					String strId = table.getValueAt(nColumn,0).toString();
+					int id = Integer.valueOf(strId);
+					User targetUser = getUserById(id);
+					CheckDialog checkFrm = new CheckDialog(targetUser,MainFrame.this);
 					checkFrm.setVisible(true);
 				}
 			}
@@ -183,7 +187,7 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			//batCheckService.dobatCheckService(users);
 			//model.fireTableDataChanged();
-			CheckSwingWorker csw = new CheckSwingWorker(model,users);
+			BatCheckSwingWorker csw = new BatCheckSwingWorker(model,users);
 			csw.execute();
 		}
 	});
@@ -203,7 +207,7 @@ public class MainFrame extends JFrame {
 	
 	
 // 表格模型类
-	class TableModel extends AbstractTableModel{
+	public class TableModel extends AbstractTableModel{
 		@Override
 		public int getRowCount() {
 			//行数
@@ -213,7 +217,7 @@ public class MainFrame extends JFrame {
 		@Override
 		public int getColumnCount() {
 			//列数
-			return 7;
+			return 8;
 		}
 		
 	    @Override
@@ -222,19 +226,21 @@ public class MainFrame extends JFrame {
 	    	//列名
 	        switch (columnIndex)
 	        {
-				case 0:
-					return "host";
+	         	case 0:
+	         		return "ID";
 				case 1:
-					return "port";
+					return "host";
 				case 2:
-					return "login_username";
+					return "port";
 				case 3:
-					return "login_password";
+					return "login_username";
 				case 4:
-					return "root_username";
+					return "login_password";
 				case 5:
-					return "root_password";
+					return "root_username";
 				case 6:
+					return "root_password";
+				case 7:
 					return "result";
 				default:
 					return null;
@@ -244,7 +250,7 @@ public class MainFrame extends JFrame {
 	    @Override
 	    public Class<?> getColumnClass(int columnIndex)
 	    {
-	    	if(columnIndex == 6){
+	    	if(columnIndex == 7){
 	    		return Icon.class;
 	    	}
 	        return String.class;
@@ -257,18 +263,20 @@ public class MainFrame extends JFrame {
 			
 			switch(columnIndex){
 			case 0:
-				return user.getHost();
+				return user.getId();
 			case 1:
-				return user.getPort();
+				return user.getHost();
 			case 2:
-				return user.getLogin_username();
+				return user.getPort();
 			case 3:
-				return user.getLogin_password();
+				return user.getLogin_username();
 			case 4:
-				return user.getRoot_username();
+				return user.getLogin_password();
 			case 5:
-				return user.getRoot_password();
+				return user.getRoot_username();
 			case 6:
+				return user.getRoot_password();
+			case 7:
 				//return user.getCheckResult();
 				String path = String.format("image/%s.png", user.getCheckResult());
 				//System.out.println(path);
@@ -279,6 +287,15 @@ public class MainFrame extends JFrame {
 		}
 	}
 	
+	/**
+	 * 通过ID获取目标User
+	 * @param id
+	 * @return
+	 */
+	private User getUserById(int id){
+		User TargetUser = users.get(id);
+		return TargetUser;
+	}
 	
 	public static void main(String[] args) {
 		//设置皮肤
@@ -295,5 +312,4 @@ public class MainFrame extends JFrame {
 		MainFrame frm = new MainFrame();
 		frm.setVisible(true);
 	}
-
 }

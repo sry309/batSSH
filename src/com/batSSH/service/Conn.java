@@ -14,7 +14,7 @@ public class Conn {
 	private String login_password;
 	private Session session;
 	
-	Conn(User user){
+	public Conn(User user){
 		this.host = user.getHost();
 		this.port = user.getPort();
 		this.login_username = user.getLogin_username();

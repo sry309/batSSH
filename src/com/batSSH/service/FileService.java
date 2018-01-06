@@ -89,6 +89,7 @@ public class FileService {
 				
 				String[] temp=line.split(split);
 				User user=new User();
+				user.setId(count_num);
 				user.setCheckResult("0");
 				user.setHost(temp[0]);
 				user.setPort(Integer.parseInt(temp[1]));

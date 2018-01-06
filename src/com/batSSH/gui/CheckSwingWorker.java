@@ -1,84 +1,45 @@
 package com.batSSH.gui;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-
+import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
-import javax.swing.table.AbstractTableModel;
-
 import com.batSSH.model.User;
 import com.batSSH.service.CheckService;
-import com.batSSH.service.batCheckService;
 
 /**
  * 
- * @Description: TODO(多线程检查) 
+ * @Description: TODO(单项检查) 
  * @author: c0ny1
- * @date: 2018年1月4日下午5:46:56
+ * @date: 2018年1月6日下午10:48:24
  * @version: V1.0
  */
 
-public class CheckSwingWorker extends SwingWorker<List<User>, User> {
-	private AbstractTableModel model;
-	private List<User> users;
-	private int nSucc = 0;
-	private int nFail = 0;
-	public CheckSwingWorker(AbstractTableModel model,List<User> users){
-		this.model = model;
-		this.users = users;
+public class CheckSwingWorker extends SwingWorker<User, User> {
+	private CheckDialog checkDlg;
+	private String imgPath;
+	private User user;
+	public CheckSwingWorker(CheckDialog checkDlg,User user){
+		this.checkDlg = checkDlg;
+		this.user = user;
 	}
 	
 	@Override
-	protected List<User> doInBackground() throws Exception {
-	
+	protected User doInBackground() throws Exception {
+		checkDlg.lbStatus.setIcon(new ImageIcon(getClass().getResource("image/checking_16.gif")));
+		
 		CheckService check = new CheckService();
 		String code_result;
 		Map<String,Object> map;
-		for(User user:users){
-			MainFrame.statusBar.setLbStatusContext("checking for"+user.toString());
-			map = check.doCheck(user);
-			code_result = map.get("result").toString();
-			sum(code_result);
-			user.setCheckResult(code_result);
-			publish(user);
-		}
-		
-		return users;
+		map = check.doCheck(user);
+		code_result = map.get("result").toString();
+		user.setCheckResult(code_result);
+		return user;
 	}
 
 	@Override
 	protected void done() {
-		model.fireTableDataChanged();
-		MainFrame.statusBar.setLbStatusContext("Check Finish!!!");
+		imgPath = String.format("image/%s.png", user.getCheckResult());
+		checkDlg.lbStatus.setIcon(new ImageIcon(getClass().getResource(imgPath)));
+		checkDlg.btnCheck.setText("Check");
 	}
-
-	@Override
-	protected void process(List<User> chunks) {
-		for(User user:chunks){
-			model.fireTableDataChanged();
-			MainFrame.statusBar.setLbSuccessContext(String.valueOf(nSucc));
-			MainFrame.statusBar.setLbFailContext(String.valueOf(nFail));
-		}
-	}
-	
-	private void sum(String code){
-		switch (code) {
-		case "0":
-			break;
-		case "1":
-			nFail++;
-			break;
-		case "2":
-			nFail++;
-			break;
-		case "3":
-			nSucc++;
-			break;
-		default:
-			nFail++;
-			break;
-		}
-	}
-	
 }
