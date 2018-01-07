@@ -75,12 +75,14 @@ public class MainFrame extends JFrame {
 		JMenuItem omOption = new JMenuItem("Option");
 		optionMenu.add(omOption);
 		
-		JMenu aboutMenu = new JMenu("About");
+		JMenu helpMenu = new JMenu("Help");
+		JMenuItem miAbout = new JMenuItem("About");
+		helpMenu.add(miAbout);
 		
 		JMenuBar menubar = new JMenuBar();
 		menubar.add(fileMenu);
 		menubar.add(optionMenu);
-		menubar.add(aboutMenu);
+		menubar.add(helpMenu);
 		
 	
 		
@@ -139,6 +141,10 @@ public class MainFrame extends JFrame {
 		this.add("North",menubar);
 		this.add("Center", scrollPane);
 		this.add("South", statusBar);
+	
+	//
+	//菜单事件
+	//
 		
 	fmImport.addActionListener(new ActionListener() {
 			
@@ -180,6 +186,19 @@ public class MainFrame extends JFrame {
 			}
 		}
 	});
+	
+	miAbout.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			AboutDlg aboutDlg = new AboutDlg(name,version);
+			aboutDlg.setVisible(true);
+		}
+	});
+	
+	//
+	// 右键菜单事件
+	//
 	
 	mStart.addActionListener(new ActionListener() {
 		

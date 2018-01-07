@@ -184,7 +184,6 @@ public class CheckDialog extends JDialog {
 		tfPort.setText(String.valueOf(currentUser.getPort()));
 		tfLoginUsername.setText(currentUser.getLogin_username());
 		tfLoginPassword.setText(currentUser.getLogin_password());
-		tfLoginPassword.setText(currentUser.getRoot_username());
 		tfRootUsername.setText(currentUser.getRoot_username());
 		tfRootPassword.setText(currentUser.getRoot_password());
 	}
@@ -193,7 +192,7 @@ public class CheckDialog extends JDialog {
 		newUser.setPort(Integer.valueOf(tfPort.getText()));
 		newUser.setLogin_username(tfLoginUsername.getText());
 		newUser.setLogin_password(tfLoginPassword.getText());
-		newUser.setRoot_username(tfLoginUsername.getText());
+		newUser.setRoot_username(tfRootUsername.getText());
 		newUser.setRoot_password(tfRootPassword.getText());
 	}
 }
